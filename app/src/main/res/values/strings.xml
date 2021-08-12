@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">OurSingapore</string>
+    <string name="btnstars">show all islands with 5 stars</string>
+    <string name="island_id">Island ID</string>
+    <string name="island_name">Island Name</string>
+    <string name="island_description">Island Description</string>
+    <string name="island_km">Island KM</string>
+    <string name="name">Name</string>
+    <string name="description">Description</string>
+    <string name="square_km">Square Km</string>
+    <string name="stars">Stars</string>
+    <string name="update">update</string>
+    <string name="delete">delete</string>
+    <string name="cancel">cancel</string>
+</resources>
