@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#000000"
     android:orientation="vertical"
     tools:context=".ThirdActivity">
 
@@ -11,7 +12,8 @@
         android:id="@+id/textViewID"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/island_id" />
+        android:text="@string/show_id"
+        android:textColor="#FFFFFF" />
 
     <EditText
         android:id="@+id/etID"
@@ -24,7 +26,8 @@
         android:id="@+id/textViewName2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/island_name" />
+        android:text="@string/show_name"
+        android:textColor="#FFFFFF" />
 
     <EditText
         android:id="@+id/etName"
@@ -37,7 +40,8 @@
         android:id="@+id/textViewDescription2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/island_description" />
+        android:text="@string/show_description"
+        android:textColor="#FFFFFF" />
 
     <EditText
         android:id="@+id/etDescription"
@@ -47,13 +51,14 @@
         android:inputType="textPersonName" />
 
     <TextView
-        android:id="@+id/textViewKm2"
+        android:id="@+id/textViewYear2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/island_km" />
+        android:text="@string/show_year"
+        android:textColor="#FFFFFF" />
 
     <EditText
-        android:id="@+id/etKm"
+        android:id="@+id/etYear"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
@@ -63,14 +68,16 @@
         android:id="@+id/textViewStars2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/stars" />
+        android:text="@string/stars"
+        android:textColor="#FFFFFF" />
 
     <RatingBar
         android:id="@+id/ratingBar2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:numStars="5"
-        android:stepSize="1" />
+        android:stepSize="1"
+        android:theme="@style/RatingBar"/>
 
     <LinearLayout
         android:layout_width="match_parent"

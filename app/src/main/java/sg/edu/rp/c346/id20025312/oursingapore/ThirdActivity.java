@@ -14,7 +14,7 @@ import android.widget.Toast;
 
 public class ThirdActivity extends AppCompatActivity {
 
-    EditText etID, etName, etDescription, etKm;
+    EditText etID, etName, etDescription, etYear;
     Button btnUpdate, btnDelete, btnCancel;
     RatingBar rb2;
 
@@ -29,38 +29,45 @@ public class ThirdActivity extends AppCompatActivity {
         etID = findViewById(R.id.etID);
         etName = findViewById(R.id.etName);
         etDescription = findViewById(R.id.etDescription);
-        etKm = findViewById(R.id.etKm);
+        etYear = findViewById(R.id.etYear);
         rb2 = findViewById(R.id.ratingBar2);
 
         Intent i = getIntent();
-        final Island currentIsland = (Island) i.getSerializableExtra("island");
+        final Show currentShow = (Show) i.getSerializableExtra("show");
 
-        etID.setText(currentIsland.getId() + "");
-        etName.setText(currentIsland.getName());
-        etDescription.setText(currentIsland.getDescription());
-        etKm.setText(currentIsland.getKm() + "");
+        etID.setText(currentShow.getId() + "");
+        etID.setTextColor(getResources().getColor(R.color.grey));
 
-        rb2.setRating((float) currentIsland.getStars());
+        etName.setText(currentShow.getName());
+        etName.setTextColor(getResources().getColor(R.color.grey));
+
+        etDescription.setText(currentShow.getDescription());
+        etDescription.setTextColor(getResources().getColor(R.color.grey));
+
+        etYear.setText(currentShow.getYear() + "");
+        etYear.setTextColor(getResources().getColor(R.color.grey));
+
+        rb2.setRating((float) currentShow.getStars());
 
         btnUpdate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 DBHelper dbh = new DBHelper(ThirdActivity.this);
-                currentIsland.setName(etName.getText().toString().trim());
-                currentIsland.setDescription(etDescription.getText().toString().trim());
-                int km = 0;
+                currentShow.setName(etName.getText().toString().trim());
+                currentShow.setDescription(etDescription.getText().toString().trim());
+                int year = 0;
                 try {
-                    km = Integer.valueOf(etKm.getText().toString().trim());
+                    year = Integer.valueOf(etYear.getText().toString().trim());
                 } catch (Exception e){
-                    Toast.makeText(ThirdActivity.this, "Invalid Square KM", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ThirdActivity.this, "Invalid year", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                currentIsland.setKm(km);
+                currentShow.setYear(year);
 
-                currentIsland.setStars((int) rb2.getRating());
-                int result = dbh.updateIsland(currentIsland);
+                currentShow.setStars((int) rb2.getRating());
+                int result = dbh.updateShow(currentShow);
                 if (result > 0){
-                    Toast.makeText(ThirdActivity.this, "Island updated", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ThirdActivity.this, "Show updated", Toast.LENGTH_SHORT).show();
                     finish();
                 } else {
                     Toast.makeText(ThirdActivity.this, "Update failed", Toast.LENGTH_SHORT).show();
@@ -75,14 +82,14 @@ public class ThirdActivity extends AppCompatActivity {
 
                 AlertDialog.Builder myBuilder = new AlertDialog.Builder(ThirdActivity.this);
                 myBuilder.setTitle("Danger");
-                myBuilder.setMessage("Are you sure you want to delete the island\n\n" + currentIsland.getName());
+                myBuilder.setMessage("Are you sure you want to delete the show\n\n" + currentShow.getName());
                 myBuilder.setCancelable(false);
 
                 myBuilder.setNegativeButton("Delete", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         DBHelper dbh = new DBHelper(ThirdActivity.this);
-                        dbh.deleteIsland(currentIsland.getId());
+                        dbh.deleteShow(currentShow.getId());
                         finish();
                     }
                 });

@@ -2,19 +2,19 @@ package sg.edu.rp.c346.id20025312.oursingapore;
 
 import java.io.Serializable;
 
-public class Island implements Serializable {
+public class Show implements Serializable {
 
     private int id;
     private String name;
     private String description;
-    private int km;
+    private int year;
     private int stars;
 
-    public Island(int id, String name, String description, int km, int stars) {
+    public Show(int id, String name, String description, int year, int stars) {
         this.id = id;
         this.name = name;
         this.description = description;
-        this.km = km;
+        this.year = year;
         this.stars = stars;
     }
 
@@ -42,12 +42,12 @@ public class Island implements Serializable {
         this.description = description;
     }
 
-    public int getKm() {
-        return km;
+    public int getYear() {
+        return year;
     }
 
-    public void setKm(int km) {
-        this.km = km;
+    public void setYear(int year) {
+        this.year = year;
     }
 
     public int getStars() {

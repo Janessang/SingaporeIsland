@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#000000"
     android:orientation="vertical"
     tools:context=".SecondActivity">
 
@@ -14,13 +15,15 @@
         android:text="@string/btnstars" />
 
     <Spinner
-        android:id="@+id/spinnerKm"
+        android:id="@+id/spinnerYear"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:visibility="visible" />
+        android:visibility="visible"
+        android:theme="@style/spinnerYear"/>
 
     <ListView
         android:id="@+id/lv"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:theme="@style/ListView"/>
 </LinearLayout>

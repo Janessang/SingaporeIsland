@@ -10,13 +10,13 @@ import java.util.ArrayList;
 
 public class DBHelper extends SQLiteOpenHelper {
 
-    private static final String DATABASE_NAME = "singapore.db";
+    private static final String DATABASE_NAME = "shows.db";
     private static final int DATABASE_VERSION = 1;
-    private static final String TABLE_SG = "Island";
+    private static final String TABLE_SHOW = "Shows";
     private static final String COLUMN_ID = "_id";
     private static final String COLUMN_NAME = "name";
     private static final String COLUMN_DESCRIPTION = "description";
-    private static final String COLUMN_KM = "km";
+    private static final String COLUMN_YEAR = "year";
     private static final String COLUMN_STARS = "stars";
 
     public DBHelper(Context context) {
@@ -25,40 +25,40 @@ public class DBHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String createSGTableSql = "CREATE TABLE " + TABLE_SG + "("
+        String createSGTableSql = "CREATE TABLE " + TABLE_SHOW + "("
                 + COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
                 + COLUMN_NAME + " TEXT, "
                 + COLUMN_DESCRIPTION + " TEXT, "
-                + COLUMN_KM + " INTEGER, "
+                + COLUMN_YEAR + " INTEGER, "
                 + COLUMN_STARS + " INTEGER )";
         db.execSQL(createSGTableSql);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_SG);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_SHOW);
         onCreate(db);
     }
 
-    public long insertIsland(String name, String description, int km, int stars) {
+    public long insertShows(String name, String description, int year, int stars) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(COLUMN_NAME, name);
         values.put(COLUMN_DESCRIPTION, description);
-        values.put(COLUMN_KM, km);
+        values.put(COLUMN_YEAR, year);
         values.put(COLUMN_STARS, stars);
 
-        long result = db.insert(TABLE_SG, null, values);
+        long result = db.insert(TABLE_SHOW, null, values);
         db.close();
         return result;
     }
 
-    public ArrayList<Island> getAllIsland() {
-        ArrayList<Island> islandslist = new ArrayList<Island>();
+    public ArrayList<Show> getAllShows() {
+        ArrayList<Show> showsList = new ArrayList<Show>();
         String selectQuery = "SELECT " + COLUMN_ID + ","
                 + COLUMN_NAME + "," + COLUMN_DESCRIPTION + ","
-                + COLUMN_KM + ","
-                + COLUMN_STARS + " FROM " + TABLE_SG;
+                + COLUMN_YEAR + ","
+                + COLUMN_STARS + " FROM " + TABLE_SHOW;
 
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
@@ -67,29 +67,29 @@ public class DBHelper extends SQLiteOpenHelper {
                 int id = cursor.getInt(0);
                 String name = cursor.getString(1);
                 String description = cursor.getString(2);
-                int km = cursor.getInt(3);
+                int year = cursor.getInt(3);
                 int stars = cursor.getInt(4);
 
-                Island newIsland = new Island(id, name, description, km, stars);
-                islandslist.add(newIsland);
+                Show newShow = new Show(id, name, description, year, stars);
+                showsList.add(newShow);
 
             } while (cursor.moveToNext());
         }
         cursor.close();
         db.close();
-        return islandslist;
+        return showsList;
     }
 
-    public ArrayList<Island> getAllSongsByStars(int starsFilter) {
-        ArrayList<Island> islandslist = new ArrayList<Island>();
+    public ArrayList<Show> getAllShowsByStars(int starsFilter) {
+        ArrayList<Show> showsList = new ArrayList<Show>();
 
         SQLiteDatabase db = this.getReadableDatabase();
-        String[] columns= {COLUMN_ID, COLUMN_NAME, COLUMN_DESCRIPTION, COLUMN_KM, COLUMN_STARS};
+        String[] columns= {COLUMN_ID, COLUMN_NAME, COLUMN_DESCRIPTION, COLUMN_YEAR, COLUMN_STARS};
         String condition = COLUMN_STARS + ">= ?";
         String[] args = {String.valueOf(starsFilter)};
 
         Cursor cursor;
-        cursor = db.query(TABLE_SG, columns, condition, args, null, null, null, null);
+        cursor = db.query(TABLE_SHOW, columns, condition, args, null, null, null, null);
 
         // Loop through all rows and add to ArrayList
         if (cursor.moveToFirst()) {
@@ -97,50 +97,50 @@ public class DBHelper extends SQLiteOpenHelper {
                 int id = cursor.getInt(0);
                 String name = cursor.getString(1);
                 String description = cursor.getString(2);
-                int km = cursor.getInt(3);
+                int year = cursor.getInt(3);
                 int stars = cursor.getInt(4);
 
-                Island newIsland = new Island(id, name, description, km, stars);
-                islandslist.add(newIsland);
+                Show newShow = new Show(id, name, description, year, stars);
+                showsList.add(newShow);
             } while (cursor.moveToNext());
         }
         // Close connection
         cursor.close();
         db.close();
-        return islandslist;
+        return showsList;
     }
 
-    public int updateIsland(Island data){
+    public int updateShow(Show data){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(COLUMN_NAME, data.getName());
         values.put(COLUMN_DESCRIPTION, data.getDescription());
-        values.put(COLUMN_KM, data.getKm());
+        values.put(COLUMN_YEAR, data.getYear());
         values.put(COLUMN_STARS, data.getStars());
         String condition = COLUMN_ID + "= ?";
         String[] args = {String.valueOf(data.getId())};
-        int result = db.update(TABLE_SG, values, condition, args);
+        int result = db.update(TABLE_SHOW, values, condition, args);
         db.close();
         return result;
     }
 
-    public int deleteIsland(int id){
+    public int deleteShow(int id){
         SQLiteDatabase db = this.getWritableDatabase();
         String condition = COLUMN_ID + "= ?";
         String[] args = {String.valueOf(id)};
-        int result = db.delete(TABLE_SG, condition, args);
+        int result = db.delete(TABLE_SHOW, condition, args);
         db.close();
         return result;
     }
 
-    public ArrayList<String> getKm() {
+    public ArrayList<String> getYear() {
         ArrayList<String> codes = new ArrayList<String>();
 
         SQLiteDatabase db = this.getReadableDatabase();
-        String[] columns= {COLUMN_KM};
+        String[] columns= {COLUMN_YEAR};
 
         Cursor cursor;
-        cursor = db.query(true, TABLE_SG, columns, null, null, null, null, null, null);
+        cursor = db.query(true, TABLE_SHOW, columns, null, null, null, null, null, null);
         // Loop through all rows and add to ArrayList
         if (cursor.moveToFirst()) {
             do {
@@ -153,16 +153,16 @@ public class DBHelper extends SQLiteOpenHelper {
         return codes;
     }
 
-    public ArrayList<Island> getAllIslandByKm(int kmFilter) {
-        ArrayList<Island> islandslist = new ArrayList<Island>();
+    public ArrayList<Show> getAllShowsByYear(int showFilter) {
+        ArrayList<Show> showsList = new ArrayList<Show>();
 
         SQLiteDatabase db = this.getReadableDatabase();
-        String[] columns= {COLUMN_ID, COLUMN_NAME, COLUMN_DESCRIPTION, COLUMN_KM, COLUMN_STARS};
-        String condition = COLUMN_KM + "= ?";
-        String[] args = {String.valueOf(kmFilter)};
+        String[] columns= {COLUMN_ID, COLUMN_NAME, COLUMN_DESCRIPTION, COLUMN_YEAR, COLUMN_STARS};
+        String condition = COLUMN_YEAR + "= ?";
+        String[] args = {String.valueOf(showFilter)};
 
         Cursor cursor;
-        cursor = db.query(TABLE_SG, columns, condition, args, null, null, null, null);
+        cursor = db.query(TABLE_SHOW, columns, condition, args, null, null, null, null);
 
         // Loop through all rows and add to ArrayList
         if (cursor.moveToFirst()) {
@@ -170,17 +170,17 @@ public class DBHelper extends SQLiteOpenHelper {
                 int id = cursor.getInt(0);
                 String name = cursor.getString(1);
                 String description = cursor.getString(2);
-                int km = cursor.getInt(3);
+                int year = cursor.getInt(3);
                 int stars = cursor.getInt(4);
 
-                Island newIsland = new Island(id, name, description, km, stars);
-                islandslist.add(newIsland);
+                Show newShow = new Show(id, name, description, year, stars);
+                showsList.add(newShow);
             } while (cursor.moveToNext());
         }
         // Close connection
         cursor.close();
         db.close();
-        return islandslist;
+        return showsList;
     }
 
 }
